@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://b30j7jwl6qhwq"]
+
+[ext_resource type="Script" uid="uid://rm3hujfhx1p3" path="res://_Project/Scripts/GeneralSystems/Game.cs" id="1_l5epy"]
+[ext_resource type="Resource" uid="uid://dbd7jioxovkry" path="res://_Project/Resources/DataControllers/Session/DC_Session.tres" id="2_ev7ww"]
+[ext_resource type="Resource" uid="uid://rtpdqkicg58l" path="res://_Project/Resources/DataControllers/DC_Save.tres" id="3_kx8o3"]
+[ext_resource type="Script" uid="uid://drt80pq6mv6iw" path="res://_Project/Scripts/Temp/TempSessionSaveButton.cs" id="4_ev7ww"]
+
+[node name="_Game" type="Node" unique_id=1947708131]
+script = ExtResource("1_l5epy")
+_sessionDataController = ExtResource("2_ev7ww")
+_saveDataController = ExtResource("3_kx8o3")
+
+[node name="Control" type="Control" parent="." unique_id=1251210978 node_paths=PackedStringArray("_saveButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_ev7ww")
+_saveButton = NodePath("Button")
+_saveDataController = ExtResource("3_kx8o3")
+
+[node name="Button" type="Button" parent="Control" unique_id=831573479]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.0
+offset_top = -34.0
+offset_right = 119.0
+offset_bottom = 34.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Save"
