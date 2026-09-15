@@ -7,6 +7,9 @@ using Godot;
 [GlobalClass]
 public partial class SaveDataController : Resource
 {
+    [Export] private SessionDataController _sessionDataController;
+    
+    [ExportGroup("Config")]
     [Export] private string _saveDatabaseName = "SaveDatabase.json";
     [Export] private string _saveFolderName = "Saves";
     [Export] private string _saveFileName = "Save_";
@@ -14,19 +17,13 @@ public partial class SaveDataController : Resource
 
     private string _saveDatabasePath;
     private string _saveFolderPath;
-    private SessionDataController _sessionDataController;
     private SaveData _saveDatabase;
 
     private JsonSerializerOptions _jsonSerializerOptions;
     
-    public void Init(SessionDataController sessionDataController)
+    public void Init()
     {
-        _sessionDataController = sessionDataController;
-        _jsonSerializerOptions = new JsonSerializerOptions
-        {
-            //DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = true
-        };
+        _jsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
         
         // Loading Save database
         if (string.IsNullOrWhiteSpace(_saveDatabaseName))
@@ -77,7 +74,7 @@ public partial class SaveDataController : Resource
         }
     }
 
-    public void LoadSession(int index)
+    public void LoadSession(int slotIndex)
     {
         if (_saveDatabase == null)
         {
@@ -85,14 +82,14 @@ public partial class SaveDataController : Resource
             return;
         }
         
-        if (_saveDatabase.Entries.Count < index
-            || _saveDatabase.Entries[index] == null)
+        if (_saveDatabase.Entries.Count < slotIndex
+            || _saveDatabase.Entries[slotIndex] == null)
         {
             GD.PrintErr("No save entry found");
             return;
         }
 
-        var path = _saveDatabase.Entries[index].FilePath;
+        var path = _saveDatabase.Entries[slotIndex].FilePath;
 
         try
         {
@@ -106,7 +103,7 @@ public partial class SaveDataController : Resource
         }
     }
 
-    public void SaveSession(int index)
+    public void SaveSession(int slotIndex)
     {
         if (_saveDatabase == null)
         {
@@ -114,7 +111,7 @@ public partial class SaveDataController : Resource
             return;
         }
 
-        var finalIndex = Math.Clamp(index, 0, _saveDatabase.Entries.Count);
+        var finalIndex = Math.Clamp(slotIndex, 0, _saveDatabase.Entries.Count);
         string saveFilePath = string.Empty;
         
         if (finalIndex == _saveDatabase.Entries.Count)

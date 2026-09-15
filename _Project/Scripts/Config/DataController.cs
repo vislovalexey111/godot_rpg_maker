@@ -1,6 +1,6 @@
 using Godot;
 
-public abstract partial class DataController<T> : Godot.Resource
+public abstract partial class DataController<T> : Resource
 {
     public T Data { get; protected set; }
     public abstract void SetDefault();

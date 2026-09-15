@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PlayerDatabase" format=3 uid="uid://tx0kcfymvsel"]
+
+[ext_resource type="Resource" uid="uid://bubj1owhappm7" path="res://_Project/Resources/DataControllers/Session/Players/Player_Test.tres" id="1_6hjwx"]
+[ext_resource type="Script" uid="uid://g8h43kt6kh5r" path="res://_Project/Scripts/Config/Databases/ControllerDatabases/PlayerDatabase.cs" id="1_8qyi0"]
+
+[resource]
+script = ExtResource("1_8qyi0")
+_players = Array[Object]([ExtResource("1_6hjwx")])
+metadata/_custom_type_script = "uid://g8h43kt6kh5r"

@@ -1,7 +1,9 @@
 [gd_resource type="Resource" script_class="SaveDataController" format=3 uid="uid://rtpdqkicg58l"]
 
+[ext_resource type="Resource" uid="uid://dbd7jioxovkry" path="res://_Project/Resources/DataControllers/Session/DC_Session.tres" id="1_c06bg"]
 [ext_resource type="Script" uid="uid://c4xxytkcnxrkm" path="res://_Project/Scripts/Config/SaveDataController.cs" id="1_nul2e"]
 
 [resource]
 script = ExtResource("1_nul2e")
+_sessionDataController = ExtResource("1_c06bg")
 metadata/_custom_type_script = "uid://c4xxytkcnxrkm"

@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dd7724cy4nv51"]
+
+[ext_resource type="Script" uid="uid://geey7x2mt5km" path="res://_Project/Scripts/Levels/LevelMainMenu.cs" id="1_m7b0d"]
+
+[node name="MainMenu" type="Node" unique_id=1286436601]
+script = ExtResource("1_m7b0d")
+
+[node name="Label" type="Label" parent="." unique_id=1796648514]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "MAIN MENU"
+horizontal_alignment = 1
+vertical_alignment = 1

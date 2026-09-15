@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LevelDatabase" format=3 uid="uid://cc3hr68u7ole5"]
+
+[ext_resource type="Resource" uid="uid://bj5viye8pt1e5" path="res://_Project/Resources/DataControllers/Session/Levels/Level_Test.tres" id="1_0j8fd"]
+[ext_resource type="Script" uid="uid://bvvlse1jivw0p" path="res://_Project/Scripts/Config/Databases/ControllerDatabases/LevelDatabase.cs" id="1_1yfx2"]
+[ext_resource type="Resource" uid="uid://clq1naex4s0of" path="res://_Project/Resources/DataControllers/Session/Levels/Level_Test_2.tres" id="2_w11uj"]
+
+[resource]
+script = ExtResource("1_1yfx2")
+_levels = Array[Object]([ExtResource("1_0j8fd"), ExtResource("2_w11uj")])
+metadata/_custom_type_script = "uid://bvvlse1jivw0p"

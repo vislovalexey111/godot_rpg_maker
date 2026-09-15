@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="LevelDataController" format=3 uid="uid://clq1naex4s0of"]
+
+[ext_resource type="Script" uid="uid://b6ltxp3vsa4mg" path="res://_Project/Scripts/Config/DataControllers/Session/LevelDataController.cs" id="1_un0ee"]
+
+[resource]
+script = ExtResource("1_un0ee")
+metadata/_custom_type_script = "uid://b6ltxp3vsa4mg"

@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://bv0qld2528sxu"]
+
+[ext_resource type="Script" uid="uid://7jmvvlu31th5" path="res://_Project/Scripts/Temp/Level2D.cs" id="1_qogsy"]
+[ext_resource type="PackedScene" uid="uid://dp566cs4mnt25" path="res://_Project/Scenes/Temp/LevelChanger2D.tscn" id="3_1mnxx"]
+[ext_resource type="Texture2D" uid="uid://c5ea3l5r88uav" path="res://icon.svg" id="3_qogsy"]
+[ext_resource type="Resource" uid="uid://clq1naex4s0of" path="res://_Project/Resources/DataControllers/Session/Levels/Level_Test_2.tres" id="4_qogsy"]
+[ext_resource type="PackedScene" uid="uid://b36gk2mvu0eth" path="res://_Project/Scenes/Temp/PlayerSpawner2D.tscn" id="5_wbe7y"]
+
+[node name="LevelTest" type="Node2D" unique_id=1719457426 node_paths=PackedStringArray("_playerSpawner2D")]
+script = ExtResource("1_qogsy")
+_playerSpawner2D = NodePath("PlayerSpawner2D")
+
+[node name="LevelChanger" parent="." unique_id=709825278 instance=ExtResource("3_1mnxx")]
+position = Vector2(1074, 327)
+_nextSpawnId = "Spawn_Test3"
+_nextLevelDataController = ExtResource("4_qogsy")
+
+[node name="SpawnPoints" type="Node" parent="." unique_id=1411802720]
+
+[node name="Spawn_Test" type="Node2D" parent="SpawnPoints" unique_id=2118681717]
+position = Vector2(576, 324)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn_Test" unique_id=39505431]
+modulate = Color(1, 0.691412, 0.38465255, 1)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_qogsy")
+
+[node name="Spawn_Test2" type="Node2D" parent="SpawnPoints" unique_id=2141512185]
+position = Vector2(887, 324)
+
+[node name="Sprite2D" type="Sprite2D" parent="SpawnPoints/Spawn_Test2" unique_id=2013338713]
+modulate = Color(1, 0.691412, 0.38465255, 1)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_qogsy")
+
+[node name="PlayerSpawner2D" parent="." unique_id=867638479 node_paths=PackedStringArray("_spawnPointRoot") instance=ExtResource("5_wbe7y")]
+_spawnPointRoot = NodePath("../SpawnPoints")

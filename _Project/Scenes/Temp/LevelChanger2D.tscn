@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dp566cs4mnt25"]
+
+[ext_resource type="Script" uid="uid://br07ggamvnxjw" path="res://_Project/Scripts/Temp/LevelChanger2D.cs" id="1_m0rqi"]
+[ext_resource type="Resource" uid="uid://crhe5gvnwbeg8" path="res://_Project/Resources/PlayerLink.tres" id="2_4nr1x"]
+[ext_resource type="Texture2D" uid="uid://c5ea3l5r88uav" path="res://icon.svg" id="3_4nr1x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qfyvo"]
+size = Vector2(84, 114)
+
+[node name="LevelChanger" type="Area2D" unique_id=709825278]
+script = ExtResource("1_m0rqi")
+_playerLink = ExtResource("2_4nr1x")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=411820539]
+modulate = Color(0.02450712, 0, 0.79944575, 1)
+position = Vector2(0, -1.9073486e-06)
+scale = Vector2(0.65625, 0.89062506)
+texture = ExtResource("3_4nr1x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=112060777]
+shape = SubResource("RectangleShape2D_qfyvo")

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dqskx7jdl1h0x"]
+
+[ext_resource type="Script" uid="uid://dy0efpyxcfmav" path="res://_Project/Scripts/Temp/Player2D.cs" id="1_y6831"]
+[ext_resource type="Texture2D" uid="uid://c5ea3l5r88uav" path="res://icon.svg" id="2_et7bl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3v1d6"]
+size = Vector2(128, 128)
+
+[node name="Player2D" type="Node2D" unique_id=290828141]
+script = ExtResource("1_y6831")
+_speed = 20.0
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=599512269]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=799486722]
+texture = ExtResource("2_et7bl")
+
+[node name="PlayerArea" type="Area2D" parent="." unique_id=1403455213]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea" unique_id=1795525743]
+shape = SubResource("RectangleShape2D_3v1d6")

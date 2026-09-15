@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b36gk2mvu0eth"]
+
+[ext_resource type="Script" uid="uid://dcn0hygc2eddi" path="res://_Project/Scripts/Temp/PlayerSpawner2D.cs" id="1_fq8yi"]
+[ext_resource type="Resource" uid="uid://crhe5gvnwbeg8" path="res://_Project/Resources/PlayerLink.tres" id="2_v3uab"]
+
+[node name="PlayerSpawner2D" type="Node" unique_id=867638479]
+script = ExtResource("1_fq8yi")
+_playerLink = ExtResource("2_v3uab")

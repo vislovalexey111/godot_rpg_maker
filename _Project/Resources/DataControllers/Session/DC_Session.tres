@@ -1,9 +1,15 @@
 [gd_resource type="Resource" script_class="SessionDataController" format=3 uid="uid://dbd7jioxovkry"]
 
-[ext_resource type="Resource" uid="uid://bubj1owhappm7" path="res://_Project/Resources/DataControllers/Session/Players/DC_Player_Test.tres" id="1_7jplw"]
-[ext_resource type="Script" uid="uid://u6pymrd8bdkf" path="res://_Project/Scripts/Config/DataConfigs/Session/SessionDataController.cs" id="1_cmslx"]
+[ext_resource type="Resource" uid="uid://bubj1owhappm7" path="res://_Project/Resources/DataControllers/Session/Players/Player_Test.tres" id="1_8quru"]
+[ext_resource type="Script" uid="uid://u6pymrd8bdkf" path="res://_Project/Scripts/Config/DataControllers/Session/SessionDataController.cs" id="1_cmslx"]
+[ext_resource type="Resource" uid="uid://cc3hr68u7ole5" path="res://_Project/Resources/Databases/ControllerDatabases/CDB_Levels.tres" id="1_ril2e"]
+[ext_resource type="Resource" uid="uid://tx0kcfymvsel" path="res://_Project/Resources/Databases/ControllerDatabases/CDB_Players.tres" id="2_8quru"]
+[ext_resource type="Resource" uid="uid://crhe5gvnwbeg8" path="res://_Project/Resources/PlayerLink.tres" id="3_cl25m"]
 
 [resource]
 script = ExtResource("1_cmslx")
-Players = Array[Object]([ExtResource("1_7jplw")])
+_players = ExtResource("2_8quru")
+_levels = ExtResource("1_ril2e")
+_defaultPlayer = ExtResource("1_8quru")
+_playerLink = ExtResource("3_cl25m")
 metadata/_custom_type_script = "uid://u6pymrd8bdkf"

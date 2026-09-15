@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="PlayerLink" format=3 uid="uid://crhe5gvnwbeg8"]
+
+[ext_resource type="Script" uid="uid://dps7cc5260opi" path="res://_Project/Scripts/PlayerLink.cs" id="1_pk6oc"]
+
+[resource]
+script = ExtResource("1_pk6oc")
+metadata/_custom_type_script = "uid://dps7cc5260opi"
