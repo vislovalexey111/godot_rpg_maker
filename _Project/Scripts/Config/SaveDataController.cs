@@ -8,7 +8,7 @@ using Godot;
 public partial class SaveDataController : Resource
 {
     [Export] private SessionDataController _sessionDataController;
-    
+
     [ExportGroup("Config")]
     [Export] private string _saveDatabaseName = "SaveDatabase.json";
     [Export] private string _saveFolderName = "Saves";
@@ -17,9 +17,11 @@ public partial class SaveDataController : Resource
 
     private string _saveDatabasePath;
     private string _saveFolderPath;
-    private SaveData _saveDatabase;
-
     private JsonSerializerOptions _jsonSerializerOptions;
+    
+    public SaveData SaveDatabase { get; private set; }
+    
+    public int SaveCount => SaveDatabase?.SaveCount ?? 0;
     
     public void Init()
     {
@@ -35,12 +37,12 @@ public partial class SaveDataController : Resource
         string userDirPath = OS.GetUserDataDir();
         _saveDatabasePath = $"{userDirPath}/{_saveDatabaseName}";
 
-        _saveDatabase = new SaveData(new List<SaveDataEntry>());
+        SaveDatabase = new SaveData(new List<SaveDataEntry>());
 
         if (!File.Exists(_saveDatabasePath))
         {
             GD.Print("No save database found, creating a new one");
-            File.WriteAllText(_saveDatabasePath, JsonSerializer.Serialize(_saveDatabase, _jsonSerializerOptions));
+            UpdateDatabase(SaveDatabase);
         }
         else
         {
@@ -48,14 +50,17 @@ public partial class SaveDataController : Resource
             {
                 string saveDatabaseString = File.ReadAllText(_saveDatabasePath);
                 var saveDatabase = JsonSerializer.Deserialize<SaveData>(saveDatabaseString);
-                _saveDatabase.Set(saveDatabase);
+                
+                if (saveDatabase.CheckForInvalidSaves()) UpdateDatabase(saveDatabase);
+                
+                SaveDatabase.Set(saveDatabase);
                 GD.Print("Save database load successful");
             }
             catch (Exception exception)
             {
                 GD.PrintErr($"Loading database file failed: {exception.Message},{exception.StackTrace}");
-                _saveDatabase.Entries.Clear();
-                File.WriteAllText(_saveDatabasePath, JsonSerializer.Serialize(_saveDatabase, _jsonSerializerOptions));
+                SaveDatabase.Entries.Clear();
+                UpdateDatabase(SaveDatabase);
             }
         }
 
@@ -74,70 +79,89 @@ public partial class SaveDataController : Resource
         }
     }
 
-    public void LoadSession(int slotIndex)
+    public bool TryLoadSession(int slotIndex)
     {
-        if (_saveDatabase == null)
-        {
-            GD.PrintErr($"No save database initialized");
-            return;
-        }
+        if (IsDatabaseNull() || !SaveDatabase.TryGet(slotIndex, out SaveDataEntry entry)) return false;
         
-        if (_saveDatabase.Entries.Count < slotIndex
-            || _saveDatabase.Entries[slotIndex] == null)
-        {
-            GD.PrintErr("No save entry found");
-            return;
-        }
+        var path = entry.FilePath;
 
-        var path = _saveDatabase.Entries[slotIndex].FilePath;
+        if (!File.Exists(path))
+        {
+            GD.Print("No save file found for the entry with path: " + path);
+            SaveDatabase.TryRemove(entry);
+            UpdateDatabase(SaveDatabase);
+            return false;
+        }
 
         try
         {
             var session = JsonSerializer.Deserialize<SessionData>(File.ReadAllText(path));
             _sessionDataController.Load(session);
+            return true;
         }
         catch(Exception exception)
         {
-            GD.PrintErr($"Unable to load save file: {_saveFileName}, {exception.Message}, {exception.StackTrace}");
+            GD.PrintErr($"Unable to load save file: {path}, {exception.Message}, {exception.StackTrace}");
+
+            SaveDatabase.TryRemove(entry);
+            File.Delete(path);
+            UpdateDatabase(SaveDatabase);
+            
             _sessionDataController.SetDefault();
+            return false;
         }
     }
 
-    public void SaveSession(int slotIndex)
+    public bool TrySaveSession(int slotIndex, out SaveDataEntry entry)
     {
-        if (_saveDatabase == null)
-        {
-            GD.PrintErr("No save database initialized");
-            return;
-        }
-
-        var finalIndex = Math.Clamp(slotIndex, 0, _saveDatabase.Entries.Count);
-        string saveFilePath = string.Empty;
+        entry = null;
         
-        if (finalIndex == _saveDatabase.Entries.Count)
+        if (IsDatabaseNull()) return false;
+
+        DateTime now = DateTime.Now;
+        
+        if (!SaveDatabase.TryGet(slotIndex, out entry))
         {
-            int nameIndex = finalIndex;
-
-            string saveFilePrefix = $"{_saveFolderPath}/{_saveFileName}";
-            
-            while (File.Exists($"{saveFilePrefix}{nameIndex}{_saveFileExtension}"))
-                ++nameIndex;
-
-            saveFilePath = $"{saveFilePrefix}{nameIndex}{_saveFileExtension}";
-            
-            _saveDatabase.Entries.Add(new SaveDataEntry(
-                DateTime.Now,
-                saveFilePath
-            ));
+            string saveFilePath = $"{_saveFolderPath}/{_saveFileName}{now:yyyy_MM_dd_HH_mm_ss}{_saveFileExtension}";
+            GD.Print("Creating a new file by path: " + saveFilePath);
+            entry = new SaveDataEntry(DateTime.Now, saveFilePath);
+            SaveDatabase.Add(entry);
         }
         else
         {
-            saveFilePath =  $"{_saveFolderPath}/{_saveFileName}{finalIndex}{_saveFileExtension}";
-            _saveDatabase.Entries[finalIndex].LastUpdate = DateTime.Now;
+            GD.Print("Modifying file: " + entry.FilePath);
+            entry.LastUpdate = now;
         }
         
-        _sessionDataController.Data.LastUpdate = DateTime.Now;
-        File.WriteAllText(_saveDatabasePath, JsonSerializer.Serialize(_saveDatabase, _jsonSerializerOptions));
-        File.WriteAllText(saveFilePath, JsonSerializer.Serialize(_sessionDataController.Data, _jsonSerializerOptions));
+        _sessionDataController.Data.LastUpdate = now;
+        
+        UpdateDatabase(SaveDatabase);
+        File.WriteAllText(entry.FilePath, JsonSerializer.Serialize(_sessionDataController.Data, _jsonSerializerOptions));
+        return true;
+    }
+
+    
+    public void RemoveSession(SaveDataEntry entry)
+    {
+        if (entry == null) return;
+        
+        if (File.Exists(entry.FilePath)) File.Delete(entry.FilePath);
+
+        SaveDatabase.TryRemove(entry);
+        UpdateDatabase(SaveDatabase);
+    }
+
+    private void UpdateDatabase(SaveData saveData)
+    {
+        File.WriteAllText(_saveDatabasePath, JsonSerializer.Serialize(saveData, _jsonSerializerOptions));
+    }
+
+    
+    private bool IsDatabaseNull()
+    {
+        if (SaveDatabase != null) return false;
+        
+        GD.PrintErr("Save database is not initialized");
+        return true;
     }
 }

@@ -1,0 +1,6 @@
+[gd_resource type="Shortcut" format=3 uid="uid://b1cqbqpttpwe6"]
+
+[ext_resource type="InputEventAction" uid="uid://dligl23okrqko" path="res://_Project/Resources/InputEvent/IE_UI_Menu.tres" id="1_bwpqo"]
+
+[resource]
+events = [ExtResource("1_bwpqo")]

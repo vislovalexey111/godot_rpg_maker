@@ -1,10 +1,12 @@
 [gd_resource type="Resource" script_class="PlayerDataController" format=3 uid="uid://bubj1owhappm7"]
 
+[ext_resource type="Resource" uid="uid://bj5viye8pt1e5" path="res://_Project/Resources/DataControllers/Session/Levels/Level_Test.tres" id="1_fl560"]
 [ext_resource type="Script" uid="uid://dsc7hj5hocvpq" path="res://_Project/Scripts/Config/DataControllers/Session/PlayerDataController.cs" id="1_hl3fc"]
 
 [resource]
 script = ExtResource("1_hl3fc")
+PrefabPath = "uid://dqskx7jdl1h0x"
 PlayerName = "Test"
-_defaultLevelId = "Level_Test"
+_defaultLevel = ExtResource("1_fl560")
 _defaultSpawnId = "Spawn_Test"
 metadata/_custom_type_script = "uid://dsc7hj5hocvpq"

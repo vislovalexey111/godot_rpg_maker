@@ -4,102 +4,339 @@
 [ext_resource type="Resource" uid="uid://dbd7jioxovkry" path="res://_Project/Resources/DataControllers/Session/DC_Session.tres" id="2_ev7ww"]
 [ext_resource type="Resource" uid="uid://tx0kcfymvsel" path="res://_Project/Resources/Databases/ControllerDatabases/CDB_Players.tres" id="3_bdpml"]
 [ext_resource type="Resource" uid="uid://rtpdqkicg58l" path="res://_Project/Resources/DataControllers/DC_Save.tres" id="3_kx8o3"]
-[ext_resource type="Script" uid="uid://lbmlyypf444n" path="res://_Project/Scripts/GeneralSystems/SceneController.cs" id="6_bdpml"]
-[ext_resource type="Resource" uid="uid://crhe5gvnwbeg8" path="res://_Project/Resources/PlayerLink.tres" id="7_bdpml"]
+[ext_resource type="PackedScene" uid="uid://c72oymoc4nc8m" path="res://_Project/Prefabs/Singletons/SceneController.tscn" id="6_urrj0"]
+[ext_resource type="Script" uid="uid://cu8cudj84gt8f" path="res://_Project/Scripts/UI/UIScreens/UIMainMenu.cs" id="7_bdpml"]
+[ext_resource type="Script" uid="uid://cqbhrpm0msybf" path="res://_Project/Scripts/UI/UIController.cs" id="7_fa0pr"]
 [ext_resource type="Resource" uid="uid://cc3hr68u7ole5" path="res://_Project/Resources/Databases/ControllerDatabases/CDB_Levels.tres" id="7_hahsm"]
-[ext_resource type="Script" uid="uid://bdci4ewt68i12" path="res://_Project/Scripts/UI/Fader.cs" id="8_bdpml"]
+[ext_resource type="PackedScene" uid="uid://bjfot715s2v06" path="res://_Project/Prefabs/Fader.tscn" id="7_urrj0"]
+[ext_resource type="Script" uid="uid://bvg2bgg3s4qhc" path="res://_Project/Scripts/UI/UIScreens/UIHud.cs" id="9_f3lf7"]
+[ext_resource type="Shortcut" uid="uid://b1cqbqpttpwe6" path="res://_Project/Resources/Shortcuts/SC_UI_Menu.tres" id="10_bgb0y"]
+[ext_resource type="Script" uid="uid://be5lu3frmb26p" path="res://_Project/Scripts/UI/UIScreens/UIPause.cs" id="10_f3lf7"]
+[ext_resource type="Script" uid="uid://chuh6xbpu8x1m" path="res://_Project/Scripts/UI/UIScreens/UICutscene.cs" id="11_iy4c8"]
+[ext_resource type="Script" uid="uid://cbm2c1vhyii6" path="res://_Project/Scripts/UI/UIScreens/UISave.cs" id="11_ox8lw"]
+[ext_resource type="Shortcut" uid="uid://ipeap24gh20n" path="res://_Project/Resources/Shortcuts/SC_UI_Resume.tres" id="12_qkqfs"]
+[ext_resource type="PackedScene" uid="uid://sqroo5ms8hvr" path="res://_Project/Prefabs/UI/SaveEntryButton.tscn" id="12_u2nmr"]
+[ext_resource type="Script" uid="uid://cw1qyed26l3ua" path="res://_Project/Scripts/UI/UIScreens/UILoad.cs" id="13_2kbia"]
+[ext_resource type="Shortcut" uid="uid://nq0gxno1hqs4" path="res://_Project/Resources/Shortcuts/SC_UI_Back.tres" id="14_0rk34"]
 
-[sub_resource type="Animation" id="Animation_urrj0"]
-resource_name = "FadeIn"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control/ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_bdpml"]
-resource_name = "FadeOut"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control/ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_hahsm"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control/ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_fa0pr"]
-_data = {
-&"FadeIn": SubResource("Animation_urrj0"),
-&"FadeOut": SubResource("Animation_bdpml"),
-&"RESET": SubResource("Animation_hahsm")
-}
-
-[node name="_Game" type="Node" unique_id=1947708131]
+[node name="_Game" type="Node" unique_id=1947708131 node_paths=PackedStringArray("_uiController")]
 process_mode = 3
 script = ExtResource("1_l5epy")
+_uiController = NodePath("UIController")
 _levelDatabase = ExtResource("7_hahsm")
 _playerDatabase = ExtResource("3_bdpml")
 _sessionDataController = ExtResource("2_ev7ww")
 _saveDataController = ExtResource("3_kx8o3")
 
-[node name="SceneController" type="Node" parent="." unique_id=1862752193 node_paths=PackedStringArray("_fader", "_levelRoot")]
-script = ExtResource("6_bdpml")
-_playerLink = ExtResource("7_bdpml")
+[node name="SceneController" parent="." unique_id=603142003 node_paths=PackedStringArray("_fader") instance=ExtResource("6_urrj0")]
 _fader = NodePath("../Fader")
-_levelRoot = NodePath("LevelRoot")
 
-[node name="LevelRoot" type="Node" parent="SceneController" unique_id=483659808]
-process_mode = 1
+[node name="UIController" type="CanvasLayer" parent="." unique_id=1369362374 node_paths=PackedStringArray("_screenRoot")]
+script = ExtResource("7_fa0pr")
+_screenRoot = NodePath("Screens")
 
-[node name="Fader" type="Node" parent="." unique_id=756956477 node_paths=PackedStringArray("_player")]
-script = ExtResource("8_bdpml")
-_player = NodePath("AnimationPlayer")
+[node name="Screens" type="Node" parent="UIController" unique_id=188071817]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Fader" unique_id=139827022]
-libraries/ = SubResource("AnimationLibrary_fa0pr")
-
-[node name="Control" type="Control" parent="Fader" unique_id=566270971]
+[node name="MainMenu" type="Control" parent="UIController/Screens" unique_id=394548477 node_paths=PackedStringArray("_btnStart", "_btnLoad", "_btnQuit")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("7_bdpml")
+_sessionDataController = ExtResource("2_ev7ww")
+_btnStart = NodePath("VBoxContainer/BtnStart")
+_btnLoad = NodePath("VBoxContainer/BtnLoad")
+_btnQuit = NodePath("VBoxContainer/BtnQuit")
 
-[node name="ColorRect" type="ColorRect" parent="Fader/Control" unique_id=603303168]
+[node name="Label" type="Label" parent="UIController/Screens/MainMenu" unique_id=1956874332]
 layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.0
+offset_top = -102.25
+offset_right = 89.0
+offset_bottom = -60.24994
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "MAIN MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIController/Screens/MainMenu" unique_id=943984066]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -33.0
+offset_right = 82.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BtnStart" type="Button" parent="UIController/Screens/MainMenu/VBoxContainer" unique_id=1590058569]
+layout_mode = 2
+text = "START"
+
+[node name="BtnLoad" type="Button" parent="UIController/Screens/MainMenu/VBoxContainer" unique_id=1051812782]
+layout_mode = 2
+text = "LOAD"
+
+[node name="BtnQuit" type="Button" parent="UIController/Screens/MainMenu/VBoxContainer" unique_id=778831968]
+layout_mode = 2
+text = "QUIT"
+
+[node name="HUD" type="Control" parent="UIController/Screens" unique_id=709409381 node_paths=PackedStringArray("_btnPause")]
+visible = false
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+script = ExtResource("9_f3lf7")
+_btnPause = NodePath("btnMenu")
+
+[node name="btnMenu" type="Button" parent="UIController/Screens/HUD" unique_id=1562195229]
+layout_mode = 1
+offset_top = -31.0
+offset_right = 53.0
+shortcut = ExtResource("10_bgb0y")
+text = "Menu"
+
+[node name="Pause" type="Control" parent="UIController/Screens" unique_id=1402654973 node_paths=PackedStringArray("_btnResume", "_btnLoad", "_btnMenu")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_f3lf7")
+_btnResume = NodePath("VBoxContainer/BtnResume")
+_btnLoad = NodePath("VBoxContainer/BtnLoad")
+_btnMenu = NodePath("VBoxContainer/BtnMenu")
+
+[node name="Label" type="Label" parent="UIController/Screens/Pause" unique_id=1104562322]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -47.0
+offset_top = -102.25
+offset_right = 47.0
+offset_bottom = -60.24994
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "PAUSE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIController/Screens/Pause" unique_id=681197604]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -33.0
+offset_right = 82.0
+offset_bottom = 33.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BtnResume" type="Button" parent="UIController/Screens/Pause/VBoxContainer" unique_id=490182364]
+layout_mode = 2
+shortcut = ExtResource("12_qkqfs")
+text = "RESUME"
+
+[node name="BtnLoad" type="Button" parent="UIController/Screens/Pause/VBoxContainer" unique_id=1373868623]
+layout_mode = 2
+text = "LOAD"
+
+[node name="BtnMenu" type="Button" parent="UIController/Screens/Pause/VBoxContainer" unique_id=755330329]
+layout_mode = 2
+text = "TO MAIN MENU"
+
+[node name="Cutscene" type="Control" parent="UIController/Screens" unique_id=197424869]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_iy4c8")
+
+[node name="Save" type="Control" parent="UIController/Screens" unique_id=29685778 node_paths=PackedStringArray("_btnNewSave", "buttonRoot", "_btnBack")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_ox8lw")
+_btnNewSave = NodePath("Buttons/btnNewSave")
+saveDataController = ExtResource("3_kx8o3")
+buttonRoot = NodePath("Buttons/ButtonRoot/VBoxContainer")
+buttonPrefab = ExtResource("12_u2nmr")
+_btnBack = NodePath("btnBack")
+
+[node name="Title" type="Label" parent="UIController/Screens/Save" unique_id=891303581]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 78.0
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 40
+text = "SAVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Buttons" type="Control" parent="UIController/Screens/Save" unique_id=1932336252]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 38.0
+offset_top = 78.0
+offset_right = -38.0
+offset_bottom = -85.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="btnNewSave" type="Button" parent="UIController/Screens/Save/Buttons" unique_id=131597446]
+custom_minimum_size = Vector2(0, 126)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 126.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UIController/Screens/Save/Buttons/btnNewSave" unique_id=1057410087]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+mouse_filter = 1
+theme_override_font_sizes/font_size = 40
+text = "NEW SAVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ButtonRoot" type="ScrollContainer" parent="UIController/Screens/Save/Buttons" unique_id=1963241850]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 150.0
+offset_bottom = 4.0
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIController/Screens/Save/Buttons/ButtonRoot" unique_id=500611380]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="btnBack" type="Button" parent="UIController/Screens/Save" unique_id=2094621556]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -237.0
+offset_top = -71.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+shortcut = ExtResource("14_0rk34")
+text = "BACK"
+
+[node name="Load" type="Control" parent="UIController/Screens" unique_id=1565988965 node_paths=PackedStringArray("buttonRoot", "_btnBack")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_2kbia")
+saveDataController = ExtResource("3_kx8o3")
+buttonRoot = NodePath("ButtonRoot/VBoxContainer")
+buttonPrefab = ExtResource("12_u2nmr")
+_btnBack = NodePath("btnBack")
+
+[node name="Title" type="Label" parent="UIController/Screens/Load" unique_id=1191737180]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 78.0
+grow_horizontal = 2
+mouse_filter = 1
+theme_override_font_sizes/font_size = 40
+text = "LOAD"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="ButtonRoot" type="ScrollContainer" parent="UIController/Screens/Load" unique_id=618339008]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 38.0
+offset_top = 78.0
+offset_right = -38.0
+offset_bottom = -82.29596
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIController/Screens/Load/ButtonRoot" unique_id=274075052]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="btnBack" type="Button" parent="UIController/Screens/Load" unique_id=853121045]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -237.0
+offset_top = -71.0
+offset_right = -20.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+shortcut = ExtResource("14_0rk34")
+text = "BACK"
+
+[node name="Popups" type="Node" parent="UIController" unique_id=733505960]
+
+[node name="Dialog" type="Node" parent="UIController" unique_id=1393916212]
+
+[node name="Fader" parent="." unique_id=1578728984 instance=ExtResource("7_urrj0")]

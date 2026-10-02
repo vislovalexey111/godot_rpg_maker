@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class Level2D : Node
+public partial class Level2D : LevelGameplay
 {
     [Export] private PlayerSpawner2D _playerSpawner2D;
     

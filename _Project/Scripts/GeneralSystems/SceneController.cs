@@ -9,16 +9,14 @@ public partial class SceneController : AbstractSingleton<SceneController>
         LoadingStarted,
         Loading
     }
-    
-    [ExportGroup("Config")]
-    [Export] private string _levelsPath = "res://_Project/Scenes/Levels/GameplayLevels/";
-    [Export] private string _levelsExtension = ".tscn";
-    [Export] private string _mainMenuScene = "res://_Project/Scenes/Levels/_MainMenu.tscn";
+ 
+    [Export(PropertyHint.File, "*.tscn")] private string _mainMenuScene;
 
     [ExportGroup("References")]
-    [Export] private PlayerLink _playerLink;
-    [Export] private Fader _fader;
+    [Export] private SpawnDataController _spawnDataController;
+    [Export] private LevelDatabase _levelDatabase;
     [Export] private Node _levelRoot;
+    [Export] private Fader _fader;
     
     private ELoadingProgress _loadingProgress;
     private string _currentPath;
@@ -42,19 +40,23 @@ public partial class SceneController : AbstractSingleton<SceneController>
         
         if (status == ResourceLoader.ThreadLoadStatus.InProgress) return;
         
+        _loadingProgress = ELoadingProgress.None;
+        SetProcess(false);
+        
         if (status == ResourceLoader.ThreadLoadStatus.Loaded)
         {
             if (ResourceLoader.LoadThreadedGet(_currentPath) is not PackedScene levelResource)
             {
                 GD.PrintErr("Invalid resource conversion: " + _currentPath);
-                _currentPath = _lastPath;
+                LoadMenu(false);
             }
             else
             {
-                if (_currentScene != null) _currentScene.Free();
+                if (_currentScene != null) _currentScene.QueueFree();
                 
                 _currentScene = levelResource.Instantiate();
                 _levelRoot.AddChild(_currentScene);
+                _fader.FadeOut();
             }
         }
         else
@@ -64,17 +66,8 @@ public partial class SceneController : AbstractSingleton<SceneController>
             else if (status == ResourceLoader.ThreadLoadStatus.InvalidResource)
                 GD.PrintErr("Invalid resource: " + _currentPath);
 
-            _currentPath = _lastPath;
+            LoadMenu(false);
         }
-        
-        _loadingProgress = ELoadingProgress.None;
-        _fader.FadeOut();
-        SetProcess(false);
-    }
-
-    public static void LoadCurrentLevel()
-    {
-        if (HasInstance) Instance.LoadCurrent();
     }
 
     public static void LoadMainMenu()
@@ -82,14 +75,32 @@ public partial class SceneController : AbstractSingleton<SceneController>
         if (HasInstance) Instance.LoadMenu();
     }
 
-    public void LoadCurrent()
+    public static void LoadLevel(string scenePath)
     {
-        LoadScene($"{_levelsPath}{_playerLink.Data.CurrentLevelId}{_levelsExtension}");
+        if (HasInstance) Instance.LoadScene(scenePath);
+    }
+
+    public static void LoadCurrentLevel()
+    {
+        if (HasInstance) Instance.LoadCurrent();
+    }
+
+    public static void LoadLevel(LevelDataController levelData)
+    {
+        if (HasInstance) Instance.LoadScene(levelData.ScenePath);
     }
     
-    public void LoadMenu() => LoadScene(_mainMenuScene);
+    public void LoadCurrent()
+    {
+        if (_levelDatabase.TryGetItem(_spawnDataController.Player.Data.CurrentLevelId, out var currentLevel))
+            LoadScene(currentLevel.ScenePath);
+        else
+            GD.PrintErr($"Failed to load level: no level with id {currentLevel.ScenePath} is specified in a database");
+    }
+    
+    public void LoadMenu(bool queueLastScene = true) => LoadScene(_mainMenuScene, queueLastScene);
 
-    private void LoadScene(string scenePath)
+    private void LoadScene(string scenePath, bool queueLastScene = true)
     {
         if (_loadingProgress != ELoadingProgress.None)
         {
@@ -109,9 +120,12 @@ public partial class SceneController : AbstractSingleton<SceneController>
             return;
         }
 
+        UIController.ShowScreen("Cutscene");
         _loadingProgress = ELoadingProgress.LoadingStarted;
-        _lastPath = _currentPath;
+
+        _lastPath = queueLastScene ? _currentPath : scenePath;
         _currentPath = scenePath;
+        
         _fader.FadeIn(OnFadeInFinished);
     }
 

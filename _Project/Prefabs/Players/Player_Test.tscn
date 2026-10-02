@@ -8,7 +8,7 @@ size = Vector2(128, 128)
 
 [node name="Player2D" type="Node2D" unique_id=290828141]
 script = ExtResource("1_y6831")
-_speed = 20.0
+_speed = 50.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=599512269]
 

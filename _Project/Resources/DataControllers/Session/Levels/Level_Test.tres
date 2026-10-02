@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_o7jrk")
 LevelName = "Test Level"
-SceneName = "Level_Test"
+ScenePath = "uid://bv0qld2528sxu"
 metadata/_custom_type_script = "uid://b6ltxp3vsa4mg"

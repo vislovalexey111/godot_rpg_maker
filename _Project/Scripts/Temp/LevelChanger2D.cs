@@ -2,7 +2,7 @@ using Godot;
 
 public partial class LevelChanger2D : Area2D
 {
-    [Export] private PlayerLink _playerLink;
+    [Export] private SpawnDataController _spawnDataController;
     [Export] private string _nextSpawnId;
     [Export] private LevelDataController _nextLevelDataController;
 
@@ -22,14 +22,9 @@ public partial class LevelChanger2D : Area2D
 
     private void OnAreaEntered(Area2D area)
     {
-        if (area.Name != PLAYER_AREA || _playerLink.Controller == null) return;
+        if (area.Name != PLAYER_AREA || _spawnDataController.Player == null) return;
         
-        var data = _playerLink.Data;
-        var nextLevel = _nextLevelDataController.ResourceName;
-        data.CurrentSpawnId = _nextSpawnId;
-        data.CurrentLevelId = nextLevel;
-        
-        GD.Print($"Triggered! Loading {nextLevel}");
-        SceneController.LoadCurrentLevel();
+        _spawnDataController.SetCurrentLevelSpawn(_nextLevelDataController, _nextSpawnId);
+        SceneController.LoadLevel(_nextLevelDataController);
     }
 }

@@ -1,0 +1,4 @@
+[gd_resource type="InputEventAction" format=3 uid="uid://bnps0crmq1223"]
+
+[resource]
+action = &"gameui_back"

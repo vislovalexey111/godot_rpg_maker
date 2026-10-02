@@ -8,12 +8,12 @@ public class SessionData : ILoadableData<SessionData>
     public Dictionary<string, LevelData> Levels { get; set; }
     
     public DateTime LastUpdate { get; set; }
-    public string CurrentPlayerId { get; set; }
+    public SpawnData SpawnData { get; set; }
 
     public void Set(SessionData data)
     {
         LastUpdate = data.LastUpdate;
-        CurrentPlayerId = data.CurrentPlayerId;
+        SpawnData.Set(data.SpawnData);
 
         foreach (var playerId in data.Players.Keys)
         {
@@ -28,12 +28,12 @@ public class SessionData : ILoadableData<SessionData>
     
     public SessionData(
         DateTime lastUpdate,
-        string currentPlayerId,
+        SpawnData spawnData,
         Dictionary<string, PlayerData> players,
         Dictionary<string, LevelData> levels)
     {
         LastUpdate = lastUpdate;
-        CurrentPlayerId = currentPlayerId;
+        SpawnData = spawnData;
         Players = players;
         Levels = levels;
     }

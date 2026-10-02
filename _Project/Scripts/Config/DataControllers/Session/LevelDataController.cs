@@ -4,6 +4,7 @@ using Godot;
 public partial class LevelDataController : DataController<LevelData>
 {
     [Export] public string LevelName;
+    [Export(PropertyHint.File, "*.tscn")] public string ScenePath;
     
     public override void Init()
     {

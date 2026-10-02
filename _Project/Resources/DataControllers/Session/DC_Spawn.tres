@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SpawnDataController" format=3 uid="uid://crhe5gvnwbeg8"]
+
+[ext_resource type="Resource" uid="uid://bubj1owhappm7" path="res://_Project/Resources/DataControllers/Session/Players/Player_Test.tres" id="1_52trs"]
+[ext_resource type="Script" uid="uid://dps7cc5260opi" path="res://_Project/Scripts/SpawnDataController.cs" id="2_us5pm"]
+
+[resource]
+resource_name = "Spawn"
+script = ExtResource("2_us5pm")
+_defaultPlayer = ExtResource("1_52trs")
+metadata/_custom_type_script = "uid://dps7cc5260opi"

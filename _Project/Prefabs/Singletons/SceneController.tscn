@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://c72oymoc4nc8m"]
+
+[ext_resource type="Script" uid="uid://lbmlyypf444n" path="res://_Project/Scripts/GeneralSystems/SceneController.cs" id="1_fo4nf"]
+[ext_resource type="Resource" uid="uid://crhe5gvnwbeg8" path="res://_Project/Resources/DataControllers/Session/DC_Spawn.tres" id="2_ujk22"]
+[ext_resource type="Resource" uid="uid://cc3hr68u7ole5" path="res://_Project/Resources/Databases/ControllerDatabases/CDB_Levels.tres" id="3_10dyo"]
+
+[node name="SceneController" type="Node" unique_id=603142003 node_paths=PackedStringArray("_levelRoot")]
+script = ExtResource("1_fo4nf")
+_mainMenuScene = "uid://dd7724cy4nv51"
+_spawnDataController = ExtResource("2_ujk22")
+_levelDatabase = ExtResource("3_10dyo")
+_levelRoot = NodePath("LevelRoot")
+
+[node name="LevelRoot" type="Node" parent="." unique_id=2124609383]
+process_mode = 1

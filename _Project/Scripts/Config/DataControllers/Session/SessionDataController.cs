@@ -4,36 +4,29 @@ using Godot;
 [GlobalClass]
 public partial class SessionDataController : DataController<SessionData>
 {
-    [Export] public PlayerDatabase _players;
-    [Export] public LevelDatabase _levels;
-    [Export] public PlayerDataController _defaultPlayer;
-    [Export] public PlayerLink _playerLink;
+    [Export] public PlayerDatabase _playerDatabase;
+    [Export] public LevelDatabase _levelDatabase;
+    [Export] private SpawnDataController _spawnDataController;
 
-    public void SetCurrentPlayer(PlayerDataController controller)
-    {
-        Data.CurrentPlayerId = controller.ResourceName;
-        _playerLink.Controller = controller;
-    }
     
     public override void Init()
     {
-        _playerLink.Controller = _defaultPlayer;
+        _spawnDataController.Init();
         
         Data = new SessionData(
             DateTime.Now,
-            _defaultPlayer.ResourceName,
-            _players.CreateDataDictionary(),
-            _levels.CreateDataDictionary()
+            _spawnDataController.Data,
+            _playerDatabase.CreateDataDictionary(),
+            _levelDatabase.CreateDataDictionary()
         );
     }
 
     public override void SetDefault()
     {
-        _players.SetDefault();
-        _levels.SetDefault();
+        _playerDatabase.SetDefault();
+        _levelDatabase.SetDefault();
+        _spawnDataController.SetDefault();
 
-        _playerLink.Controller = _defaultPlayer;
-        Data.CurrentPlayerId = _defaultPlayer.ResourceName;
         Data.LastUpdate = DateTime.Now;
     }
     
@@ -41,9 +34,8 @@ public partial class SessionDataController : DataController<SessionData>
     {
         Data.Set(data);
 
-        if (_players.TryGetItem(Data.CurrentPlayerId, out PlayerDataController player))
-            _playerLink.Controller = player;
-        else
-            GD.PrintErr("No data controller found");
+        if (_playerDatabase.TryGetItem(Data.SpawnData.CurrentPlayerId, out PlayerDataController player))
+            _spawnDataController.Player = player;
+        else GD.PrintErr("No level data controller found");
     } 
 }
